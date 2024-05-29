@@ -1,5 +1,5 @@
 import "./login.css";
-import React, { useState } from "react";
+import { useState } from "react";
 import avatarDefault from './../../assets/avatar.png'
 import { toast } from "react-toastify";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
@@ -52,6 +52,7 @@ const Login = () => {
             console.log(err)
             toast.error(err.message)
         } finally{
+            auth.signOut()
             setLoading(false) //unlock submit button
         }
     };

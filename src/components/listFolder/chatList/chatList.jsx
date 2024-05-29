@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./chatList.css";
 import search from "./../../../assets/search.png";
 import plus from "./../../../assets/plus.png";

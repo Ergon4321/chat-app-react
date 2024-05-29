@@ -1,0 +1,115 @@
+.chatList-container {
+    flex: 1;
+    overflow: auto;
+    overflow-x: hidden;
+    margin-right: 5px; /*margin for the scrollbar*/
+    .search {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+
+        .searchBar {
+            padding: 0.5rem;
+            flex: 1;
+            background-color: rgba(20, 20, 20, 0.5);
+            transition: ease-in-out 0.3s;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            justify-content: space-around;
+
+            input {
+                background-color: transparent;
+                color: #eee;
+                outline: none;
+                border: none;
+                flex: 1;
+            }
+
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        .searchBar:hover{
+            background-color: rgba(50, 50, 50, 0.5);
+            transition: ease-in-out 0.3s;
+        }
+
+        .add {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(20, 20, 20, 0.5);
+            transition: ease-in-out 0.3s;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .add:hover{
+            transition: ease-in-out 0.3s;
+            background-color: rgba(50, 50, 50, 0.5);
+        }
+    }
+
+    .item {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        cursor: pointer;
+        border-bottom: 1px solid grey;
+        margin: 5px;
+
+        img{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .texts{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            span{
+                font-weight: 600;
+            }
+
+            p{
+                font-weight: 300;
+                font-size: 1rem;
+            }
+        }
+    }
+}
+
+.chatList-container::-webkit-scrollbar {
+    transition: ease-in-out 0.3s;
+    width: 0.4rem;
+    border-radius: 5px;
+    margin: 30px;
+}
+
+.chatList-container::-webkit-scrollbar-track {
+    transition: ease-in-out 0.3s;
+    background: #202020;
+    border-radius: 5px;
+    padding: 5px
+}
+
+.chatList-container::-webkit-scrollbar-thumb {
+    transition: ease-in-out 0.3s;
+    background: #505050; /* Color of the thumb */
+    border-radius: 5px; /* Border radius of the thumb */
+}
+
+.chatList-container::-webkit-scrollbar-thumb:hover {
+    transition: ease-in-out 0.3s;
+    background: #404050;
+    cursor: pointer;
+}
+

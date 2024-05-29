@@ -1,0 +1,116 @@
+.detail-container{
+    flex: 1;
+
+    .user{
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid grey;
+
+        img{
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+        }
+    }
+
+    .info{
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .option{
+
+            .title{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                img{
+                    width: 30px;
+                    height: 30px;
+                    background-color: rgba(30,30,30,0.5);
+                    padding: 10px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    transition: ease-in-out 0.3s;
+                }
+
+                img:hover{
+                    background-color: rgba(50,50,50,0.5);
+                    transition: ease-in-out 0.3s;
+                }
+            }
+        
+            .photos{
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                margin-top: 20px;
+
+                .photoItem{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .photoDetail{
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+                        img{
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 5px;
+                            object-fit: cover;
+                        }
+
+                        span{
+                            font-size: 0.8rem;
+                            color: #EEE;
+                            font-weight: 300;
+                        }
+                    }
+
+                    .download-button{
+                        margin-right: 4px;
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 5px;
+                        object-fit: cover;
+                        
+                    }
+                }
+            }
+        }
+
+        button{
+            padding: 10px 20px;
+            background-color: rgba(230,74, 105, 0.5);
+            color:#EEE;
+            border:none;
+            outline: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: ease-in-out 0.3s;
+        }
+
+        button:hover{
+            transition: ease-in-out 0.3s;
+            background-color: rgba(230,74, 105, 0.7);
+        }
+
+        button.logout{
+            transition: ease-in-out 0.3s;
+            padding: 10px;
+            background-color: #303030;
+        }
+        button.logout:hover{
+            transition: ease-in-out 0.3s;
+            padding: 10px;
+            background-color: #505050;
+        }
+    }
+}
+

@@ -1,0 +1,82 @@
+.login{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 100px;
+
+    .item{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+
+        form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+
+            input{
+                padding: 20px;
+                border: none;
+                outline: none;
+                background-color: rgba(20,20,20,0.5);
+                transition: ease-in-out 0.3s;
+                border-radius: 5px;
+                color: #EEE;
+            }
+
+            input:hover{
+                background-color: rgba(50,50,50,0.5);
+                transition: ease-in-out 0.3s;
+            }
+
+            label{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+                text-decoration: underline;
+                gap: 20px;
+
+                img{
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
+
+            button{
+                width: 100%;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                background-color: rgba(230,230,230,0.7);
+                transition: ease-in-out 0.3s;
+            }
+
+            button:hover{
+                background-color: rgba(250,250,250,0.9);
+                transition: ease-in-out 0.3s;
+            }
+
+            &:disabled{
+                cursor: not-allowed;
+                background-color: rgba(230,230,230,0.4);
+            }
+        }
+    }
+
+    .separator{
+        height: 90%;
+        width: 2px;
+        background-color: grey;
+    }
+
+}

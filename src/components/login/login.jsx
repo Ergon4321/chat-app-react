@@ -2,7 +2,7 @@ import "./login.css";
 import React, { useState } from "react";
 import avatarDefault from './../../assets/avatar.png'
 import { toast } from "react-toastify";
-import {createUserWithEmailAndPassword} from 'firebase/auth'
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
 import {auth, db} from './../../lib/firebase'
 import { doc, setDoc } from "firebase/firestore";
 import upload from "../../lib/upload.js";
@@ -28,7 +28,6 @@ const Login = () => {
         e.preventDefault()
         setLoading(true) //blocking submit button
         const formData = new FormData(e.target)
-
         const {username, email, password} = Object.fromEntries(formData)
 
         // console.log(username, email)
@@ -58,9 +57,21 @@ const Login = () => {
     };
 
 
-    const handleLogin = e =>{
+    const handleLogin = async (e) =>{
         e.preventDefault() //preventing changing page onSubmit
-        
+        setLoading(true)
+
+        const formData = new FormData(e.target)
+        const {email, password} = Object.fromEntries(formData)
+
+        try{
+            await signInWithEmailAndPassword(auth, email, password)
+        }catch(err){
+            console.log(err)
+            toast.success(err.message)
+        } finally{
+            setLoading(false)
+        }
     }
 
     

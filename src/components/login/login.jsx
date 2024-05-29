@@ -33,9 +33,12 @@ const Login = () => {
         // console.log(username, email)
         try{
             const response = await createUserWithEmailAndPassword(auth, email, password) //creating firebase account
+
+            const imgUrl = await upload(avatar.file) //uploading image
             await setDoc(doc(db, "users", response.user.uid), {
                 username: username,
                 email: email,
+                avatar: imgUrl,
                 id: response.user.uid,
                 blocked: [],
             }); //adding data to user collection

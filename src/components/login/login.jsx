@@ -13,7 +13,7 @@ const Login = () => {
         url: ""
     })
 
-    const[loading, setLoading] = useState(false)
+    const[loading, setLoading] = useState(false) //blocking button during upload proccess
 
     const handleAvatar = e =>{
         if(e.target.files[0]){
@@ -26,6 +26,7 @@ const Login = () => {
 
     const handleRegister = async (e) =>{
         e.preventDefault()
+        setLoading(true) //blocking submit button
         const formData = new FormData(e.target)
 
         const {username, email, password} = Object.fromEntries(formData)
@@ -51,6 +52,8 @@ const Login = () => {
         }catch(err){
             console.log(err)
             toast.error(err.message)
+        } finally{
+            setLoading(false) //unlock submit button
         }
     };
 

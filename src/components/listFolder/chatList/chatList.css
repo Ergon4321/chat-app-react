@@ -113,3 +113,45 @@
     cursor: pointer;
 }
 
+.chatList-container .item {
+    position: relative;
+    padding: 10px;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.chatList-container .item.unread::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(20, 20, 100, 0.6);
+    filter: blur(2px);
+    z-index: -1; /* Ensure the background stays behind the content */
+}
+
+.chatList-container .item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chatList-container .item .texts {
+    flex: 1;
+}
+
+.chatList-container .item .texts span {
+    font-weight: bold;
+}
+
+.chatList-container .item .texts p {
+    margin: 0;
+    color: gray;
+}
+
+

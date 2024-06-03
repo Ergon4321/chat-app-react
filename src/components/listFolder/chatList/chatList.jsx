@@ -6,14 +6,16 @@ import minus from "./../../../assets/minus.png";
 import avatar from "./../../../assets/avatar.png";
 import AddUser from "../../addUser/addUser";
 import { useUserStore } from "../../../lib/userStore";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
+import { useChatStore } from "../../../lib/chatStore";
 
 const ChatList = () => {
     const [addMode, setAddMode] = useState(false);
     const [chats, setChats] = useState([]);
 
     const { currentUser } = useUserStore();
+    const { chatId, changeChat } = useChatStore();
 
     useEffect(() => {
         if (!currentUser?.id) return;
@@ -46,6 +48,26 @@ const ChatList = () => {
         };
     }, [currentUser?.id]);
 
+    const handleSelect = async (chatId, chat) => {
+        const userChats = chats.map(item => {
+            const { user, ...rest } = item;
+            return rest;
+        });
+    
+        const chatIndex = userChats.findIndex(item => item.chatId === chatId);
+        userChats[chatIndex].isSeen = true;
+        const userChatsRef = doc(db, 'userchats', currentUser.id);
+        try {
+            await updateDoc(userChatsRef, {
+                chats: userChats,
+            });
+            changeChat(chat.chatId, chat.user);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    
+
     return (
         <div className="chatList-container">
             <div className="search">
@@ -61,7 +83,11 @@ const ChatList = () => {
                 />
             </div>
             {chats.map((chat) => (
-                <div className="item" key={chat.chatId}>
+                <div
+                    className={`item ${chat?.isSeen ? '' : 'unread'}`}
+                    key={chat.chatId}
+                    onClick={() => handleSelect(chat.chatId, chat)}
+                >
                     <img src={chat.user.avatar || avatar} alt="avatar_icon" />
                     <div className="texts">
                         <span>{chat.user.username}</span>

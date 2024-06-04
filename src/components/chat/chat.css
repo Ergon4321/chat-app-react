@@ -138,11 +138,21 @@
             transition: ease-in-out 0.3s;
             padding: 0.5rem;
             border-radius: 10px;
+
+            &:disabled{
+                background-color: rgba(230,74, 105, 0.5);
+                cursor: not-allowed;
+            }
         }
 
         input:hover{
             background-color: rgba(50, 50, 50, 0.5);
             transition: ease-in-out 0.3s;
+
+            &:disabled{
+                background-color: rgba(230,74, 105, 0.7);
+                cursor: not-allowed;
+            }
         }
 
         .send-button{
@@ -153,6 +163,19 @@
             border-radius: 10px;
             cursor: pointer;
             outline: none;
+            transition: ease-in-out 0.3s;
+            
+            &:disabled{
+                background-color: rgba(230,74, 105, 0.5);
+                cursor: not-allowed;
+            }
+            
+           
+        }
+
+        .send-button:hover{
+            background-color: rgba(250, 250, 250, 0.5);
+            transition: ease-in-out 0.3s;
         }
 
         .emoji{

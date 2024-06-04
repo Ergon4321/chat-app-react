@@ -1,17 +1,41 @@
 import './detail.css'
 import arrowUp from '../../assets/arrowUp.png'
 import download from '../../assets/download.png'
-import avatar from '../../assets/avatar.png'
+import avatarDefault from '../../assets/avatar.png'
 import photo from '../../assets/bg.jpg'
 import { auth } from '../../lib/firebase'
-
+import { useChatStore } from '../../lib/chatStore'
+import { useUserStore } from '../../lib/userStore'
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore'
+import { db } from "../../lib/firebase";
 
 function Detail(){
+
+    const {chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock} =
+    useChatStore();
+    const {currentUser } = useUserStore();
+
+
+    const handleBlock = async () => {
+        if(!user) return;
+
+        const userDocRef = doc(db, "users", currentUser.id)
+        try{
+            await updateDoc(userDocRef, {
+                blocked: isReceiverBlocked ? arrayRemove(user.id) : arrayUnion(user.id)
+
+            });
+            changeBlock()
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     return(
     <div className='detail-container'>
         <div className="user">
-            <img src={avatar}/>
-            <h2>Friend</h2>
+            <img src={user?.avatar || avatarDefault}/>
+            <h2>{user?.username}</h2>
             <p>Description</p>
         </div>
         <div className="info">
@@ -55,7 +79,7 @@ function Detail(){
                     <img src={arrowUp} />
                 </div>
             </div>
-            <button>Block User</button>
+            <button onClick={handleBlock}>{isCurrentUserBlocked ? "You are blocked!" : isReceiverBlocked ? "User blocked" : "Block User"}</button>
             <button className='logout' onClick={() => auth.signOut()}>Logout</button>
         </div>
     </div>

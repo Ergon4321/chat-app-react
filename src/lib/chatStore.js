@@ -1,42 +1,53 @@
-import { getDoc, doc } from 'firebase/firestore'
-import { create } from 'zustand'
+import { getDoc, doc } from 'firebase/firestore';
+import { create } from 'zustand';
 import { db } from './firebase';
 import { useUserStore } from './userStore';
 
 export const useChatStore = create((set) => ({
     chatId: null,
     user: null,
-    isCurrentUsreBlocked: false,
+    isCurrentUserBlocked: false,
     isReceiverBlocked: false,
-    changeChat: (chatId, user) =>{
-        const currentUser = useUserStore.getState().currentUser
+    changeChat: async (chatId, user) => {
+        const currentUser = useUserStore.getState().currentUser;
 
-        //CHECK IF CURRENT USER IS BLOCKED
-        if(user.blocked.includes(currentUser.id)){
-            return set({ chatId,
-                user: null,
-                isCurrentUsreBlocked: true,
-                isReceiverBlocked: false,
-            })
-        }
+        // Get user data to check block status
+        const userDoc = await getDoc(doc(db, 'users', user.id));
+        const userData = userDoc.data();
 
-        //CHECK IF RECEIVER USER IS BLOCKED
-        else if(user.blocked.includes(user.id)){
-            return set({ chatId,
-                user: null,
-                isCurrentUsreBlocked: false,
-                isReceiverBlocked: true,})
-        } else{
-            return set({ 
+        if (userData.blocked.includes(currentUser.id)) {
+            return set({
                 chatId,
-                user,
-                isCurrentUsreBlocked: false,
-                isReceiverBlocked: false,})
+                user: null,
+                isCurrentUserBlocked: true,
+                isReceiverBlocked: false,
+            });
         }
 
-      
+        // Get current user data to check block status
+        const currentUserDoc = await getDoc(doc(db, 'users', currentUser.id));
+        const currentUserData = currentUserDoc.data();
+
+        if (currentUserData.blocked.includes(user.id)) {
+            return set({
+                chatId,
+                user: null,
+                isCurrentUserBlocked: false,
+                isReceiverBlocked: true,
+            });
+        }
+
+        return set({
+            chatId,
+            user,
+            isCurrentUserBlocked: false,
+            isReceiverBlocked: false,
+        });
     },
-    changeBlock: () =>{
-        set(state=>({...state, isReceiverBlocked: !state.isCurrentUsreBlocked}))
-    }
-}))
+    changeBlock: () => {
+        set((state) => ({
+            ...state,
+            isReceiverBlocked: !state.isReceiverBlocked,
+        }));
+    },
+}));

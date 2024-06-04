@@ -3,7 +3,7 @@ import "./chatList.css";
 import search from "./../../../assets/search.png";
 import plus from "./../../../assets/plus.png";
 import minus from "./../../../assets/minus.png";
-import avatar from "./../../../assets/avatar.png";
+import avatarDefault from "./../../../assets/avatar.png";
 import AddUser from "../../addUser/addUser";
 import { useUserStore } from "../../../lib/userStore";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
@@ -13,6 +13,7 @@ import { useChatStore } from "../../../lib/chatStore";
 const ChatList = () => {
     const [addMode, setAddMode] = useState(false);
     const [chats, setChats] = useState([]);
+    const [input, setInput] = useState("");
 
     const { currentUser } = useUserStore();
     const { chatId, changeChat } = useChatStore();
@@ -67,13 +68,14 @@ const ChatList = () => {
         }
     };
     
+    const filteredChats = chats.filter(c => c.user.username.toLowerCase().includes(input.toLowerCase()))
 
     return (
         <div className="chatList-container">
             <div className="search">
                 <div className="searchBar">
                     <img src={search} alt="search_icon" />
-                    <input type="text" placeholder="Search" />
+                    <input type="text" placeholder="Search" onChange={(e) => setInput(e.target.value)}/>
                 </div>
                 <img
                     src={addMode ? minus : plus}
@@ -82,15 +84,15 @@ const ChatList = () => {
                     onClick={() => setAddMode((prev) => !prev)}
                 />
             </div>
-            {chats.map((chat) => (
+            {filteredChats.map((chat) => (
                 <div
                     className={`item ${chat?.isSeen ? '' : 'unread'}`}
                     key={chat.chatId}
                     onClick={() => handleSelect(chat.chatId, chat)}
                 >
-                    <img src={chat.user.avatar || avatar} alt="avatar_icon" />
+                    <img src={chat.user.blocked.includes(currentUser) ? avatarDefault : chat.user.avatar || avatarDefault} alt="avatar_icon" />
                     <div className="texts">
-                        <span>{chat.user.username}</span>
+                        <span>{chat.user.blocked.includes(currentUser.id) ? "User" : chat.user.username}</span>
                         <p>{chat.lastMessage}</p>
                     </div>
                 </div>

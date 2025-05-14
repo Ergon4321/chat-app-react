@@ -1,9 +1,12 @@
 # React Chat
 This is simple chat application made with React and Firebase to practise my front-end skills.
 
-Project was created with vite. The easiest way to run it is to use codespace and run the following command. 
-npm install (probably will run automatically)
-npm run dev
+Project was created using vite. To run the project use those commands:
+<ul>
+  <li>npm install</li>
+  <li>npm run dev</li>
+</ul>
+
 # Features:
 <ul>
   <li>Base Registration/Login system</li>

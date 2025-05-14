@@ -24,38 +24,47 @@ const Login = () => {
         }
     }
 
-    const handleRegister = async (e) =>{
-        e.preventDefault()
-        setLoading(true) //blocking submit button
-        const formData = new FormData(e.target)
-        const {username, email, password} = Object.fromEntries(formData)
+   const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading(true); // Blokowanie przycisku w trakcie procesu
+    const formData = new FormData(e.target);
+    const { username, email, password } = Object.fromEntries(formData);
 
-        // console.log(username, email)
-        try{
-            const response = await createUserWithEmailAndPassword(auth, email, password) //creating firebase account
+    try {
+        const response = await createUserWithEmailAndPassword(auth, email, password);
 
-            const imgUrl = await upload(avatar.file) //uploading image
-            await setDoc(doc(db, "users", response.user.uid), {
-                username: username,
-                email: email,
-                avatar: imgUrl,
-                id: response.user.uid,
-                blocked: [],
-            }); //adding data to user collection
-
-            await setDoc(doc(db, "userchats", response.user.uid), {
-                chats: [],
-            }); //adding data to chat
-
-            toast.success("Account has been created successfully! You can now login!")
-        }catch(err){
-            console.log(err)
-            toast.error(err.message)
-        } finally{
-            auth.signOut()
-            setLoading(false) //unlock submit button
+        let imgUrl = "";
+        if (avatar.file) {
+            try {
+                imgUrl = await upload(avatar.file);
+            } catch (uploadError) {
+                console.log("Upload failed:", uploadError.message);
+                toast.warn("Nie udało się przesłać avatara. Konto zostanie utworzone bez niego.");
+            }
         }
-    };
+
+        // Zapisanie danych użytkownika w Firestore
+        await setDoc(doc(db, "users", response.user.uid), {
+            username: username,
+            email: email,
+            avatar: imgUrl || "", // Domyślnie pusty string, jeśli nie udało się przesłać
+            id: response.user.uid,
+            blocked: [],
+        });
+
+        await setDoc(doc(db, "userchats", response.user.uid), {
+            chats: [],
+        });
+
+        toast.success("Konto zostało utworzone! Możesz się teraz zalogować.");
+    } catch (err) {
+        console.log("Błąd podczas rejestracji:", err.message);
+        toast.error("Wystąpił błąd: " + err.message);
+    } finally {
+        setLoading(false); 
+    }
+};
+
 
 
     const handleLogin = async (e) =>{
